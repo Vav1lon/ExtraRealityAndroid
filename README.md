@@ -1,4 +1,0 @@
-ExtraRealityAndroid
-===================
-
-ExtraRealityAndroid

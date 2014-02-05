@@ -3,7 +3,6 @@
 /gen
 /.sonar
 /.settings
-/.gradle
 sonar-project.properties
 *.ipr
 *.iws

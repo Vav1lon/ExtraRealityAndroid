@@ -1,0 +1,102 @@
+package com.vav1lon.data.convert;
+
+import com.vav1lon.data.DataHandler;
+import com.vav1lon.data.DataSource;
+import com.vav1lon.lib.marker.Marker;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class TwitterDataProcessor extends DataHandler implements DataProcessor {
+
+    public static final int MAX_JSON_OBJECTS = 1000;
+
+    @Override
+    public String[] getUrlMatch() {
+        String[] str = {"twitter"};
+        return str;
+    }
+
+    @Override
+    public String[] getDataMatch() {
+        String[] str = {"twitter"};
+        return str;
+    }
+
+    @Override
+    public boolean matchesRequiredType(String type) {
+        if (type.equals(DataSource.TYPE.TWITTER.name())) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<Marker> load(String rawData, int taskId, int colour)
+            throws JSONException {
+        List<Marker> markers = new ArrayList<Marker>();
+//        JSONObject root = convertToJSON(rawData);
+//        JSONArray dataArray = root.getJSONArray("results");
+//        int top = Math.min(MAX_JSON_OBJECTS, dataArray.length());
+//
+//        for (int i = 0; i < top; i++) {
+//            JSONObject jo = dataArray.getJSONObject(i);
+//
+//            Marker ma = null;
+//            if (jo.has("geo")) {
+//                Double lat = null, lon = null;
+//
+//                if (!jo.isNull("geo")) {
+//                    JSONObject geo = jo.getJSONObject("geo");
+//                    JSONArray coordinates = geo.getJSONArray("coordinates");
+//                    lat = Double.parseDouble(coordinates.getString(0));
+//                    lon = Double.parseDouble(coordinates.getString(1));
+//                } else if (jo.has("location")) {
+//
+//                    // Regex pattern to match location information
+//                    // from the location setting, like:
+//                    // iPhone: 12.34,56.78
+//                    // ÜT: 12.34,56.78
+//                    // 12.34,56.78
+//
+//                    Pattern pattern = Pattern
+//                            .compile("\\D*([0-9.]+),\\s?([0-9.]+)");
+//                    Matcher matcher = pattern.matcher(jo.getString("location"));
+//
+//                    if (matcher.find()) {
+//                        lat = Double.parseDouble(matcher.group(1));
+//                        lon = Double.parseDouble(matcher.group(2));
+//                    }
+//                }
+//                if (lat != null) {
+//                    Log.v(MixView.TAG, "processing Twitter JSON object");
+//                    String user = jo.getString("from_user");
+//                    String url = "http://twitter.com/" + user;
+//
+//                    //no ID is needed, since identical tweet by identical user may be safely merged into one.
+//                    ma = new SocialMarker(
+//                            "",
+//                            user + ": " + jo.getString("text"),
+//                            lat,
+//                            lon,
+//                            0, url,
+//                            taskId, colour);
+//                    markers.add(ma);
+//                }
+//            }
+//        }
+        return markers;
+    }
+
+    private JSONObject convertToJSON(String rawData) {
+        try {
+            return new JSONObject(rawData);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+}
