@@ -1,18 +1,17 @@
 package com.vav1lon;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.vav1lon.data.DataHandler;
-import com.vav1lon.data.DataSource;
 import com.vav1lon.lib.gui.PaintScreen;
 import com.vav1lon.lib.gui.ScreenLine;
 import com.vav1lon.lib.marker.Marker;
 import com.vav1lon.lib.render.Camera;
 import com.vav1lon.mrg.downloader.DownloadManager;
-import com.vav1lon.mrg.downloader.DownloadRequest;
 import com.vav1lon.mrg.downloader.DownloadResult;
 
 import java.util.ArrayList;
@@ -125,12 +124,7 @@ public class DataView {
     }
 
     public void requestData(String url) {
-        DownloadRequest request = new DownloadRequest(new DataSource(
-                "LAUNCHER", url, DataSource.TYPE.MIXARE,
-                DataSource.DISPLAY.CIRCLE_MARKER, true));
-        mixContext.getDataSourceManager().setAllDataSourcesforLauncher(
-                request.getSource());
-        mixContext.getDownloadManager().submitJob(request);
+
         state.nextLStatus = MixState.PROCESSING;
     }
 
@@ -329,6 +323,7 @@ public class DataView {
     }
 
     boolean handleClickEvent(ClickEvent evt) {
+        int selectedId = 0;
         boolean evtHandled = false;
 
         // Handle event
@@ -341,7 +336,16 @@ public class DataView {
                 Marker pm = dataHandler.getMarker(i);
 
                 evtHandled = pm.fClick(evt.x, evt.y, mixContext, state);
+                if (evtHandled)
+                    selectedId = i;
             }
+
+            if (evtHandled) {
+                Intent intent = new Intent(getContext(), MenuItemActivity.class);
+                intent.putExtra("test", selectedId);
+                getContext().startActivity(intent);
+            }
+
         }
         return evtHandled;
     }

@@ -50,12 +50,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static android.hardware.SensorManager.SENSOR_DELAY_GAME;
+import static android.hardware.SensorManager.SENSOR_DELAY_NORMAL;
 
 public class MixView extends Activity implements SensorEventListener, OnTouchListener {
 
     private CameraSurface camScreen;
     private AugmentedView augScreen;
+
+    private float[] accel;
+    private float[] geomagnetic;
 
     private boolean isInited;
     private static PaintScreen dWindow;
@@ -255,9 +258,9 @@ public class MixView extends Activity implements SensorEventListener, OnTouchLis
             }
 
             getMixViewData().getSensorMgr().registerListener(this,
-                    getMixViewData().getSensorGrav(), SENSOR_DELAY_GAME);
+                    getMixViewData().getSensorGrav(), SENSOR_DELAY_NORMAL);
             getMixViewData().getSensorMgr().registerListener(this,
-                    getMixViewData().getSensorMag(), SENSOR_DELAY_GAME);
+                    getMixViewData().getSensorMag(), SENSOR_DELAY_NORMAL);
 
             try {
                 GeomagneticField gmf = getMixViewData().getMixContext().getLocationFinder().getGeomagneticField();
@@ -592,7 +595,7 @@ public class MixView extends Activity implements SensorEventListener, OnTouchLis
             case 5:
                 onSearchRequested();
                 break;
-		/* GPS Information */
+        /* GPS Information */
             case 6:
                 Location currentGPSInfo = getMixViewData().getMixContext().getLocationFinder().getCurrentLocation();
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -618,7 +621,7 @@ public class MixView extends Activity implements SensorEventListener, OnTouchLis
                 alert.setTitle(getString(R.string.general_info_title));
                 alert.show();
                 break;
-		/* Case 6: license agreements */
+        /* Case 6: license agreements */
             case 7:
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
                 builder1.setMessage(getString(R.string.license));
@@ -685,15 +688,21 @@ public class MixView extends Activity implements SensorEventListener, OnTouchLis
         try {
 
             if (evt.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-                getMixViewData().getGrav()[0] = evt.values[0];
-                getMixViewData().getGrav()[1] = evt.values[1];
-                getMixViewData().getGrav()[2] = evt.values[2];
+
+                accel = lowPass(evt.values.clone(), accel);
+
+                getMixViewData().getGrav()[0] = accel[0];
+                getMixViewData().getGrav()[1] = accel[1];
+                getMixViewData().getGrav()[2] = accel[2];
 
                 augScreen.postInvalidate();
             } else if (evt.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-                getMixViewData().getMag()[0] = evt.values[0];
-                getMixViewData().getMag()[1] = evt.values[1];
-                getMixViewData().getMag()[2] = evt.values[2];
+
+                geomagnetic = lowPass(evt.values.clone(), geomagnetic);
+
+                getMixViewData().getMag()[0] = geomagnetic[0];
+                getMixViewData().getMag()[1] = geomagnetic[1];
+                getMixViewData().getMag()[2] = geomagnetic[2];
 
                 augScreen.postInvalidate();
             }
@@ -713,6 +722,7 @@ public class MixView extends Activity implements SensorEventListener, OnTouchLis
                         SensorManager.AXIS_Y, SensorManager.AXIS_MINUS_Z,
                         getMixViewData().getRot());
             }
+
             getMixViewData().getTempR().set(getMixViewData().getRot()[0],
                     getMixViewData().getRot()[1], getMixViewData().getRot()[2],
                     getMixViewData().getRot()[3], getMixViewData().getRot()[4],
@@ -727,23 +737,36 @@ public class MixView extends Activity implements SensorEventListener, OnTouchLis
             getMixViewData().getFinalR().prod(getMixViewData().getM2());
             getMixViewData().getFinalR().invert();
 
-            getMixViewData().getHistR()[getMixViewData().getrHistIdx()].set(getMixViewData()
-                    .getFinalR());
+            getMixViewData().getHistR()[getMixViewData().getrHistIdx()].set(getMixViewData().getFinalR());
             getMixViewData().setrHistIdx(getMixViewData().getrHistIdx() + 1);
+
             if (getMixViewData().getrHistIdx() >= getMixViewData().getHistR().length)
                 getMixViewData().setrHistIdx(0);
 
             getMixViewData().getSmoothR().set(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f);
+
             for (int i = 0; i < getMixViewData().getHistR().length; i++) {
                 getMixViewData().getSmoothR().add(getMixViewData().getHistR()[i]);
             }
-            getMixViewData().getSmoothR().mult(
-                    1 / (float) getMixViewData().getHistR().length);
+
+            getMixViewData().getSmoothR().mult(1 / (float) getMixViewData().getHistR().length);
 
             getMixViewData().getMixContext().updateSmoothRotation(getMixViewData().getSmoothR());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    static final float ALPHA = 0.15f;
+
+    private float[] lowPass(float[] input, float[] output) {
+        if (output == null)
+            return input;
+
+        for (int i = 0; i < input.length; i++) {
+            output[i] = output[i] + ALPHA * (input[i] - output[i]);
+        }
+        return output;
     }
 
     @Override
