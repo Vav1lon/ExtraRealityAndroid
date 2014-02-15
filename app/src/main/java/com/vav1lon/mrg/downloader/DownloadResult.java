@@ -17,7 +17,6 @@ public class DownloadResult {
     private DownloadRequest errorRequest;
     private String idOfDownloadRequest;
 
-
     public DownloadResult() {
         super();
         this.dataSource = null;
@@ -29,16 +28,13 @@ public class DownloadResult {
         this.idOfDownloadRequest = "";
     }
 
-
     public String getIdOfDownloadRequest() {
         return idOfDownloadRequest;
     }
 
-
     public void setIdOfDownloadRequest(String idRequest) {
         idOfDownloadRequest = idRequest;
     }
-
 
     public List<Marker> getMarkers() {
         return markers;

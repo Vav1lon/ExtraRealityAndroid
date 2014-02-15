@@ -131,10 +131,6 @@ public abstract class LocalMarker implements Marker {
         calcV(viewCam);
     }
 
-//	private void calcPaint(Camera viewCam) {
-//		cCMarker(origin, viewCam, 0, 0);
-//	}
-
     private boolean isClickValid(float x, float y) {
 
         //if the marker is not active (i.e. not shown in AR view) we don't have to check it for clicks
@@ -284,7 +280,6 @@ public abstract class LocalMarker implements Marker {
         return null;
     }
 
-    //get Colour for OpenStreetMap based on the URL number
     public int getColour() {
         return colour;
     }

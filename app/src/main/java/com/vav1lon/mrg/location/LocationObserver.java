@@ -18,16 +18,13 @@ class LocationObserver implements LocationListener {
         this.myController = myController;
     }
 
-
     public DownloadManager getDownloadManager() {
         return downloadManager;
     }
 
-
     public void setDownloadManager(DownloadManager downloadManager) {
         this.downloadManager = downloadManager;
     }
-
 
     public void onLocationChanged(Location location) {
         Log.d(MixContext.TAG, "Normal Location Changed: " + location.getProvider()

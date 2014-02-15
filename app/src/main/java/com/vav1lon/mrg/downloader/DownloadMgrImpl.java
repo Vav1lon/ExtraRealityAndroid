@@ -23,7 +23,6 @@ class DownloadMgrImpl implements Runnable, DownloadManager {
     private ConcurrentHashMap<String, DownloadResult> doneList = new ConcurrentHashMap<String, DownloadResult>();
     private Executor executor = Executors.newSingleThreadExecutor();
 
-
     public DownloadMgrImpl(MixContext ctx) {
         if (ctx == null) {
             throw new IllegalArgumentException("Mix Context IS NULL");

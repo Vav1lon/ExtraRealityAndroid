@@ -43,13 +43,6 @@ class LocationMgrImpl implements LocationFinder {
         this.locationResolvers = new ArrayList<LocationResolver>();
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * com.vav1lon.mrg.location.LocationFinder#findLocation(android.content.Context
-     * )
-     */
     public void findLocation() {
 
         // fallback for the case where GPS and network providers are disabled
@@ -84,13 +77,6 @@ class LocationMgrImpl implements LocationFinder {
         timer.schedule(new LocationTimerTask(), 20 * 1000); //wait 20 seconds for the location updates to find the location
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * com.vav1lon.mrg.location.LocationFinder#locationCallback(android.content
-     * .Context)
-     */
     public void locationCallback(String provider) {
         Location foundLocation = lm.getLastKnownLocation(provider);
         if (bestLocationProvider != null) {
@@ -107,11 +93,6 @@ class LocationMgrImpl implements LocationFinder {
         setLocationAtLastDownload(curLoc);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.vav1lon.mrg.location.LocationFinder#getCurrentLocation()
-     */
     public Location getCurrentLocation() {
         if (curLoc == null) {
             MixView mixView = mixContext.getActualMixView();
@@ -127,42 +108,18 @@ class LocationMgrImpl implements LocationFinder {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.vav1lon.mrg.location.LocationFinder#getLocationAtLastDownload()
-     */
     public Location getLocationAtLastDownload() {
         return locationAtLastDownload;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * com.vav1lon.mrg.location.LocationFinder#setLocationAtLastDownload(android
-     * .location.Location)
-     */
     public void setLocationAtLastDownload(Location locationAtLastDownload) {
         this.locationAtLastDownload = locationAtLastDownload;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * com.vav1lon.mrg.location.LocationFinder#setDownloadManager(org.mixare.
-     * mgr.downloader.DownloadManager)
-     */
     public void setDownloadManager(DownloadManager downloadManager) {
         getObserver().setDownloadManager(downloadManager);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.vav1lon.mrg.location.LocationFinder#getGeomagneticField()
-     */
     public GeomagneticField getGeomagneticField() {
         Location location = getCurrentLocation();
         GeomagneticField gmf = new GeomagneticField(

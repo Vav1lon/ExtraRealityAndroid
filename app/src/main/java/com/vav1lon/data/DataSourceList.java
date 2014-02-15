@@ -35,10 +35,6 @@ public class DataSourceList extends ListActivity {
     private static final int MENU_EDIT_ID = Menu.FIRST + 1;
     private static final int MENU_DELETE_ID = Menu.FIRST + 2;
 
-
-    /**
-     * Called when the activity is first created.
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -76,7 +72,6 @@ public class DataSourceList extends ListActivity {
         }
     }
 
-    //TODO: check if it's really needed
     public static String getDataSourcesStringList() {
         String ret = "";
         boolean first = true;

@@ -40,9 +40,6 @@ public class PluginLoader {
         this.activity = activity;
     }
 
-    /**
-     * loads all plugins from a plugin type.
-     */
     public void loadPlugin(PluginType pluginType) {
         PackageManager packageManager = activity.getPackageManager();
         Intent baseIntent = new Intent(pluginType.getActionName());
@@ -53,9 +50,6 @@ public class PluginLoader {
         initService(list, activity, pluginType);
     }
 
-    /**
-     * Initializes the services from the loaded plugins and stores them in the pluginmap
-     */
     private void initService(List<ResolveInfo> list, Activity activity, PluginType pluginType) {
         for (int i = 0; i < list.size(); ++i) {
             ResolveInfo info = list.get(i);
@@ -71,9 +65,6 @@ public class PluginLoader {
         }
     }
 
-    /**
-     * Unbinds all plugins from the activity
-     */
     public void unBindServices() {
         for (PluginConnection pluginConnection : pluginMap.values()) {
             if (pluginConnection instanceof ServiceConnection) {
@@ -82,9 +73,6 @@ public class PluginLoader {
         }
     }
 
-    /**
-     * Starts an activity plugin
-     */
     public void startPlugin(PluginType pluginType, String pluginName) {
         if (pluginType.getLoader() == Loader.Activity) {
             ActivityConnection activityConnection = (ActivityConnection) pluginMap.get(pluginName);

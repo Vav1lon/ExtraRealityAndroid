@@ -286,11 +286,6 @@ public class DataSource extends Activity {
                 + enabled + ", type=" + type + ", display=" + display + "]";
     }
 
-    /**
-     * Check the minimum required data
-     *
-     * @return boolean
-     */
     public boolean isWellFormed() {
         boolean out = false;
         if (isUrlWellFormed() || getName() != null || !getName().isEmpty()) {

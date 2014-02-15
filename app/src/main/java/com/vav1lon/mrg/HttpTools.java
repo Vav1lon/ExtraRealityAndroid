@@ -65,10 +65,6 @@ public final class HttpTools {
         return sb.toString();
     }
 
-
-    /**
-     * Input Stream with unsafe close
-     */
     @Deprecated
     public static InputStream getHttpGETInputStream(String urlStr, ContentResolver cr) throws Exception {
         InputStream is = null;
@@ -136,9 +132,6 @@ public final class HttpTools {
         }
     }
 
-    /**
-     * Input Stream with unsafe close
-     */
     @Deprecated
     public static InputStream getContentInputStream(String urlStr, String params, ContentResolver cr)
             throws Exception {
@@ -160,9 +153,6 @@ public final class HttpTools {
         }
     }
 
-    /**
-     * Input Stream management not safe
-     */
     @Deprecated
     public static void returnHttpInputStream(InputStream is) throws Exception {
         if (is != null) {

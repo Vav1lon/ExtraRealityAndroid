@@ -19,31 +19,18 @@ import com.vav1lon.mrg.webcontent.WebContentManagerFactory;
 
 public class MixContext extends ContextWrapper implements MixContextInterface {
 
-    // TAG for logging
     public static final String TAG = "Mixare";
 
     private MixView mixView;
 
     private Matrix rotationM = new Matrix();
 
-    /**
-     * Responsible for all download
-     */
     private DownloadManager downloadManager;
 
-    /**
-     * Responsible for all location tasks
-     */
     private LocationFinder locationFinder;
 
-    /**
-     * Responsible for data Source Management
-     */
     private DataSourceManager dataSourceManager;
 
-    /**
-     * Responsible for Web Content
-     */
     private WebContentManager webContentManager;
 
     public MixContext(MixView appCtx) {
@@ -76,9 +63,6 @@ public class MixContext extends ContextWrapper implements MixContextInterface {
         }
     }
 
-    /**
-     * Shows a webpage with the given url when clicked on a marker.
-     */
     public void loadMixViewWebPage(String url) throws Exception {
         // TODO: CHECK INTERFACE METHOD
         getWebContentManager().loadWebPage(url, getActualMixView());
@@ -145,20 +129,10 @@ public class MixContext extends ContextWrapper implements MixContextInterface {
         return out;
     }
 
-    /**
-     * Toast POPUP notification
-     *
-     * @param string message
-     */
     public void doPopUp(final String string) {
         Toast.makeText(this, string, Toast.LENGTH_LONG).show();
     }
 
-    /**
-     * Toast POPUP notification
-     *
-     * @param connectionGpsDialogText
-     */
     public void doPopUp(int RidOfString) {
         doPopUp(this.getString(RidOfString));
     }

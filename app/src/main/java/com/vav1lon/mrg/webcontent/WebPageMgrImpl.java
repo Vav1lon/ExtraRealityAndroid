@@ -22,9 +22,6 @@ class WebPageMgrImpl implements WebContentManager {
 
     protected MixContext mixContext;
 
-    /**
-     * Shows a webpage with the given url when clicked on a marker.
-     */
     public void loadMixViewWebPage(String url) throws Exception {
         loadWebPage(url, mixContext.getActualMixView());
     }
@@ -33,9 +30,6 @@ class WebPageMgrImpl implements WebContentManager {
         this.mixContext = mixContext;
     }
 
-    /* (non-Javadoc)
-     * @see com.vav1lon.mrg.webcontent.WebContentManager#loadWebPage(java.lang.String, android.content.Context)
-     */
     public void loadWebPage(String url, Context context) throws Exception {
         WebView webview = new WebView(context);
         webview.getSettings().setJavaScriptEnabled(true);
@@ -79,9 +73,6 @@ class WebPageMgrImpl implements WebContentManager {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.vav1lon.mrg.webcontent.WebContentManager#processUrl(java.lang.String, android.content.Context)
-     */
     public boolean processUrl(String url, Context ctx) {
         // get available packages from the given url
         List<ResolveInfo> resolveInfos = getAvailablePackagesForUrl(url, ctx);

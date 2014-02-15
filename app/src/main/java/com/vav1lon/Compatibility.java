@@ -18,9 +18,6 @@ public class Compatibility {
         initCompatibility();
     }
 
-    /**
-     * this will fail on older phones (Android version < 2.0)
-     */
     private static void initCompatibility() {
         try {
             mParameters_getSupportedPreviewSizes = Camera.Parameters.class.getMethod(
@@ -33,9 +30,6 @@ public class Compatibility {
         }
     }
 
-    /**
-     * If it's running on a new phone, let's get the supported preview sizes, before it was fixed to 480 x 320
-     */
     @SuppressWarnings("unchecked")
     public static List<Camera.Size> getSupportedPreviewSizes(Camera.Parameters params) {
         List<Camera.Size> retList = null;

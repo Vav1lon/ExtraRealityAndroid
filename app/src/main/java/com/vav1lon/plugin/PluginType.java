@@ -112,12 +112,6 @@ public enum PluginType {
     public abstract PluginConnection getPluginConnection();
 }
 
-/**
- * A loader enum, a activity loader means that the plugin is a activity, and it should be loaded
- * like an activity, A service loader is a plugin that can run in the background and is not visible.
- *
- * @author A. Egal
- */
 enum Loader {
     Activity,
     Service

@@ -1,7 +1,6 @@
 package com.vav1lon;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.location.Location;
 import android.util.Log;
 import android.widget.Toast;
@@ -187,9 +186,6 @@ public class DataView {
             }
         }
 
-        // Draw Radar
-        drawRadar(dw);
-
         // Get next event
         UIEvent evt = null;
         synchronized (uiEvents) {
@@ -261,40 +257,6 @@ public class DataView {
         return markers;
     }
 
-
-    /**
-     * Handles drawing radar and direction.
-     *
-     * @param PaintScreen screen that radar will be drawn to
-     */
-    private void drawRadar(PaintScreen dw) {
-        String dirTxt = "";
-        int bearing = (int) state.getCurBearing();
-        int range = (int) (state.getCurBearing() / (360f / 16f));
-        // TODO: get strings from the main.res.values main.res.xml file
-        if (range == 15 || range == 0)
-            dirTxt = getContext().getString(R.string.N);
-        else if (range == 1 || range == 2)
-            dirTxt = getContext().getString(R.string.NE);
-        else if (range == 3 || range == 4)
-            dirTxt = getContext().getString(R.string.E);
-        else if (range == 5 || range == 6)
-            dirTxt = getContext().getString(R.string.SE);
-        else if (range == 7 || range == 8)
-            dirTxt = getContext().getString(R.string.S);
-        else if (range == 9 || range == 10)
-            dirTxt = getContext().getString(R.string.SW);
-        else if (range == 11 || range == 12)
-            dirTxt = getContext().getString(R.string.W);
-        else if (range == 13 || range == 14)
-            dirTxt = getContext().getString(R.string.NW);
-
-        dw.setFill(false);
-        dw.setColor(Color.argb(150, 0, 0, 220));
-        dw.setColor(Color.rgb(255, 255, 255));
-        dw.setFontSize(12);
-    }
-
     private void handleKeyEvent(KeyEvent evt) {
         /** Adjust marker position with keypad */
         final float CONST = 10f;
@@ -348,22 +310,6 @@ public class DataView {
 
         }
         return evtHandled;
-    }
-
-    private void radarText(PaintScreen dw, String txt, float x, float y, boolean bg) {
-        float padw = 4, padh = 2;
-        float w = dw.getTextWidth(txt) + padw * 2;
-        float h = dw.getTextAsc() + dw.getTextDesc() + padh * 2;
-        if (bg) {
-            dw.setColor(Color.rgb(0, 0, 0));
-            dw.setFill(true);
-            dw.paintRect(x - w / 2, y - h / 2, w, h);
-            dw.setColor(Color.rgb(255, 255, 255));
-            dw.setFill(false);
-            dw.paintRect(x - w / 2, y - h / 2, w, h);
-        }
-        dw.paintText(padw + x - w / 2, padh + dw.getTextAsc() + y - h / 2, txt,
-                false);
     }
 
     public void clickEvent(float x, float y) {

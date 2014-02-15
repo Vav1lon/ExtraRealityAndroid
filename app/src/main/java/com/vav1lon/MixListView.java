@@ -210,7 +210,7 @@ public class MixListView extends ListActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-		/*Map View*/
+        /*Map View*/
             case 1:
                 finish();
                 break;
@@ -231,10 +231,6 @@ public class MixListView extends ListActivity {
     }
 }
 
-/**
- * The ListItemAdapter is can store properties of list items, like background or
- * text color
- */
 class ListItemAdapter extends BaseAdapter {
 
     private MixListView mixListView;
