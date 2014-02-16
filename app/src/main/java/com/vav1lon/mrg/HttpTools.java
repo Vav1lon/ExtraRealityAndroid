@@ -6,7 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
-import com.vav1lon.MixContext;
+import com.vav1lon.AppContext;
 import com.vav1lon.mrg.downloader.DownloadRequest;
 
 import java.io.BufferedReader;
@@ -120,7 +120,7 @@ public final class HttpTools {
             try {
                 is.close();
             } catch (Exception ignore) {
-                Log.w(MixContext.TAG, "Error on url " + urlStr, ignore);
+                Log.w(AppContext.TAG, "Error on url " + urlStr, ignore);
             }
             try {
                 if (conn instanceof HttpURLConnection)

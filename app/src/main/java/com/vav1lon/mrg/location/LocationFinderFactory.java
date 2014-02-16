@@ -1,11 +1,11 @@
 package com.vav1lon.mrg.location;
 
-import com.vav1lon.MixContext;
+import com.vav1lon.AppContext;
 
 public class LocationFinderFactory {
 
-    public static LocationFinder makeLocationFinder(MixContext mixContext) {
-        return new LocationMgrImpl(mixContext);
+    public static LocationFinder makeLocationFinder(AppContext appContext) {
+        return new LocationMgrImpl(appContext);
     }
 
 }

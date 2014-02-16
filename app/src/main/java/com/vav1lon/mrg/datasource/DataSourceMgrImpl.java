@@ -1,6 +1,6 @@
 package com.vav1lon.mrg.datasource;
 
-import com.vav1lon.MixContext;
+import com.vav1lon.AppContext;
 import com.vav1lon.data.DataSource;
 import com.vav1lon.data.DataSourceStorage;
 import com.vav1lon.mrg.downloader.DownloadRequest;
@@ -12,9 +12,9 @@ class DataSourceMgrImpl implements DataSourceManager {
 
     private final ConcurrentLinkedQueue<DataSource> allDataSources = new ConcurrentLinkedQueue<DataSource>();
 
-    private final MixContext ctx;
+    private final AppContext ctx;
 
-    public DataSourceMgrImpl(MixContext ctx) {
+    public DataSourceMgrImpl(AppContext ctx) {
         this.ctx = ctx;
     }
 

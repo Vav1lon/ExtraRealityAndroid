@@ -3,7 +3,7 @@ package com.vav1lon.data;
 import android.location.Location;
 import android.util.Log;
 
-import com.vav1lon.MixContext;
+import com.vav1lon.AppContext;
 import com.vav1lon.MixView;
 import com.vav1lon.lib.marker.Marker;
 
@@ -14,7 +14,6 @@ import java.util.List;
 
 public class DataHandler {
 
-    // complete marker list
     private List<Marker> markerList = new ArrayList<Marker>();
 
     public void addMarkers(List<Marker> markers) {
@@ -40,7 +39,7 @@ public class DataHandler {
         }
     }
 
-    public void updateActivationStatus(MixContext mixContext) {
+    public void updateActivationStatus(AppContext appContext) {
 
         Hashtable<Class, Integer> map = new Hashtable<Class, Integer>();
         for (Marker ma : markerList) {

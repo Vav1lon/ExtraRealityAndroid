@@ -17,7 +17,7 @@ import com.vav1lon.mrg.location.LocationFinderFactory;
 import com.vav1lon.mrg.webcontent.WebContentManager;
 import com.vav1lon.mrg.webcontent.WebContentManagerFactory;
 
-public class MixContext extends ContextWrapper implements MixContextInterface {
+public class AppContext extends ContextWrapper implements MixContextInterface {
 
     public static final String TAG = "Mixare";
 
@@ -33,7 +33,7 @@ public class MixContext extends ContextWrapper implements MixContextInterface {
 
     private WebContentManager webContentManager;
 
-    public MixContext(MixView appCtx) {
+    public AppContext(MixView appCtx) {
         super(appCtx);
         mixView = appCtx;
 

@@ -5,7 +5,7 @@ import android.location.LocationListener;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.vav1lon.MixContext;
+import com.vav1lon.AppContext;
 import com.vav1lon.mrg.downloader.DownloadManager;
 
 class LocationObserver implements LocationListener {
@@ -27,7 +27,7 @@ class LocationObserver implements LocationListener {
     }
 
     public void onLocationChanged(Location location) {
-        Log.d(MixContext.TAG, "Normal Location Changed: " + location.getProvider()
+        Log.d(AppContext.TAG, "Normal Location Changed: " + location.getProvider()
                 + " lat: " + location.getLatitude() + " lon: "
                 + location.getLongitude() + " alt: "
                 + location.getAltitude() + " acc: "
@@ -35,7 +35,7 @@ class LocationObserver implements LocationListener {
         try {
             addWalkingPathPosition(location);
             deleteAllDownloadActivity();
-            Log.v(MixContext.TAG, "Location Changed: " + location.getProvider()
+            Log.v(AppContext.TAG, "Location Changed: " + location.getProvider()
                     + " lat: " + location.getLatitude() + " lon: "
                     + location.getLongitude() + " alt: "
                     + location.getAltitude() + " acc: "

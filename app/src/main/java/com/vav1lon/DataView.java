@@ -28,7 +28,7 @@ import static android.view.KeyEvent.KEYCODE_DPAD_UP;
 
 public class DataView {
 
-    private MixContext mixContext;
+    private AppContext appContext;
     private boolean isInit;
     private int width;
     private int height;
@@ -56,12 +56,12 @@ public class DataView {
     /**
      * Constructor
      */
-    public DataView(MixContext ctx) {
-        this.mixContext = ctx;
+    public DataView(AppContext ctx) {
+        this.appContext = ctx;
     }
 
-    public MixContext getContext() {
-        return mixContext;
+    public AppContext getContext() {
+        return appContext;
     }
 
     public boolean isLauncherStarted() {
@@ -98,7 +98,7 @@ public class DataView {
 
     public void doStart() {
         state.nextLStatus = MixState.NOT_STARTED;
-        mixContext.getLocationFinder().setLocationAtLastDownload(curFix);
+        appContext.getLocationFinder().setLocationAtLastDownload(curFix);
     }
 
     public boolean isInited() {
@@ -128,8 +128,8 @@ public class DataView {
     }
 
     public void draw(PaintScreen dw) {
-        mixContext.getRM(cam.transform);
-        curFix = mixContext.getLocationFinder().getCurrentLocation();
+        appContext.getRM(cam.transform);
+        curFix = appContext.getLocationFinder().getCurrentLocation();
 
         state.calcPitchBearing(cam.transform);
 
@@ -138,7 +138,7 @@ public class DataView {
             loadDrawLayer();
             markers = new ArrayList<Marker>();
         } else if (state.nextLStatus == MixState.PROCESSING) {
-            DownloadManager dm = mixContext.getDownloadManager();
+            DownloadManager dm = appContext.getDownloadManager();
             DownloadResult dRes = null;
 
             markers.addAll(downloadDrawResults(dm, dRes));
@@ -168,7 +168,7 @@ public class DataView {
         }
 
         // Update markers
-        dataHandler.updateActivationStatus(mixContext);
+        dataHandler.updateActivationStatus(appContext);
         for (int i = dataHandler.getMarkerCount() - 1; i >= 0; i--) {
             Marker ma = dataHandler.getMarker(i);
             // if (ma.isActive() && (ma.getDistance() / 1000f < radius || ma
@@ -211,14 +211,14 @@ public class DataView {
      * Part of draw function, loads the layer.
      */
     private void loadDrawLayer() {
-        if (mixContext.getStartUrl().length() > 0) {
-            requestData(mixContext.getStartUrl());
+        if (appContext.getStartUrl().length() > 0) {
+            requestData(appContext.getStartUrl());
             isLauncherStarted = true;
         } else {
             double lat = curFix.getLatitude(), lon = curFix.getLongitude(), alt = curFix
                     .getAltitude();
             state.nextLStatus = MixState.PROCESSING;
-            mixContext.getDataSourceManager().requestDataFromAllActiveDataSource(lat, lon, alt, radius);
+            appContext.getDataSourceManager().requestDataFromAllActiveDataSource(lat, lon, alt, radius);
         }
 
         // if no datasources are activated
@@ -231,7 +231,7 @@ public class DataView {
         while ((dRes = dm.getNextResult()) != null) {
             if (dRes.isError() && retry < 3) {
                 retry++;
-                mixContext.getDownloadManager().submitJob(
+                appContext.getDownloadManager().submitJob(
                         dRes.getErrorRequest());
                 // Notification
                 // Toast.makeText(mixContext, dRes.errorMsg,
@@ -246,8 +246,8 @@ public class DataView {
 
                     // Notification
                     Toast.makeText(
-                            mixContext,
-                            mixContext.getResources().getString(
+                            appContext,
+                            appContext.getResources().getString(
                                     R.string.download_received)
                                     + " " + dRes.getDataSource().getName(),
                             Toast.LENGTH_SHORT).show();
@@ -297,7 +297,7 @@ public class DataView {
             for (int i = 0; i < dataHandler.getMarkerCount() && !evtHandled; i++) {
                 Marker pm = dataHandler.getMarker(i);
 
-                evtHandled = pm.fClick(evt.x, evt.y, mixContext, state);
+                evtHandled = pm.fClick(evt.x, evt.y, appContext, state);
                 if (evtHandled)
                     selectedId = i;
             }
@@ -341,13 +341,13 @@ public class DataView {
     }
 
     private void callRefreshToast() {
-        mixContext.getActualMixView().runOnUiThread(new Runnable() {
+        appContext.getActualMixView().runOnUiThread(new Runnable() {
 
             @Override
             public void run() {
                 Toast.makeText(
-                        mixContext,
-                        mixContext.getResources()
+                        appContext,
+                        appContext.getResources()
                                 .getString(R.string.refreshing),
                         Toast.LENGTH_SHORT).show();
             }

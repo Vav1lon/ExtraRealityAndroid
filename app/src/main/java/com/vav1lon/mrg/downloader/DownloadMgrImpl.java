@@ -2,7 +2,7 @@ package com.vav1lon.mrg.downloader;
 
 import android.util.Log;
 
-import com.vav1lon.MixContext;
+import com.vav1lon.AppContext;
 import com.vav1lon.MixView;
 import com.vav1lon.data.convert.DataConvertor;
 import com.vav1lon.lib.marker.Marker;
@@ -17,13 +17,13 @@ import java.util.concurrent.LinkedBlockingQueue;
 class DownloadMgrImpl implements Runnable, DownloadManager {
 
     private boolean stop = false;
-    private MixContext ctx;
+    private AppContext ctx;
     private DownloadManagerState state = DownloadManagerState.Confused;
     private LinkedBlockingQueue<ManagedDownloadRequest> todoList = new LinkedBlockingQueue<ManagedDownloadRequest>();
     private ConcurrentHashMap<String, DownloadResult> doneList = new ConcurrentHashMap<String, DownloadResult>();
     private Executor executor = Executors.newSingleThreadExecutor();
 
-    public DownloadMgrImpl(MixContext ctx) {
+    public DownloadMgrImpl(AppContext ctx) {
         if (ctx == null) {
             throw new IllegalArgumentException("Mix Context IS NULL");
         }
@@ -79,7 +79,7 @@ class DownloadMgrImpl implements Runnable, DownloadManager {
             }
         } catch (Exception ex) {
             result.setError(ex, request);
-            Log.w(MixContext.TAG, "ERROR ON DOWNLOAD REQUEST", ex);
+            Log.w(AppContext.TAG, "ERROR ON DOWNLOAD REQUEST", ex);
         }
         return result;
     }

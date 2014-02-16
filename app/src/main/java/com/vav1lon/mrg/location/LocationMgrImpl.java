@@ -7,7 +7,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.widget.Toast;
 
-import com.vav1lon.MixContext;
+import com.vav1lon.AppContext;
 import com.vav1lon.MixView;
 import com.vav1lon.R;
 import com.vav1lon.mrg.downloader.DownloadManager;
@@ -21,7 +21,7 @@ class LocationMgrImpl implements LocationFinder {
 
     private LocationManager lm;
     private String bestLocationProvider;
-    private final MixContext mixContext;
+    private final AppContext appContext;
     private Location curLoc;
     private Location locationAtLastDownload;
     private LocationFinderState state;
@@ -36,8 +36,8 @@ class LocationMgrImpl implements LocationFinder {
     private final long freq = 5000; // 5 seconds
     private final float dist = 20; // 20 meters
 
-    public LocationMgrImpl(MixContext mixContext) {
-        this.mixContext = mixContext;
+    public LocationMgrImpl(AppContext appContext) {
+        this.appContext = appContext;
         this.lob = new LocationObserver(this);
         this.state = LocationFinderState.Inactive;
         this.locationResolvers = new ArrayList<LocationResolver>();
@@ -60,7 +60,7 @@ class LocationMgrImpl implements LocationFinder {
         } catch (Exception ex2) {
             // ex2.printStackTrace();
             curLoc = hardFix;
-            mixContext.doPopUp(R.string.connection_GPS_dialog_text);
+            appContext.doPopUp(R.string.connection_GPS_dialog_text);
 
         }
     }
@@ -95,7 +95,7 @@ class LocationMgrImpl implements LocationFinder {
 
     public Location getCurrentLocation() {
         if (curLoc == null) {
-            MixView mixView = mixContext.getActualMixView();
+            MixView mixView = appContext.getActualMixView();
             Toast.makeText(
                     mixView,
                     mixView.getResources().getString(
@@ -133,7 +133,7 @@ class LocationMgrImpl implements LocationFinder {
         synchronized (curLoc) {
             curLoc = location;
         }
-        mixContext.getActualMixView().refresh();
+        appContext.getActualMixView().refresh();
         Location lastLoc = getLocationAtLastDownload();
         if (lastLoc == null) {
             setLocationAtLastDownload(location);
@@ -143,7 +143,7 @@ class LocationMgrImpl implements LocationFinder {
     @Override
     public void switchOn() {
         if (!LocationFinderState.Active.equals(state)) {
-            lm = (LocationManager) mixContext
+            lm = (LocationManager) appContext
                     .getSystemService(Context.LOCATION_SERVICE);
             state = LocationFinderState.Confused;
         }
@@ -177,7 +177,7 @@ class LocationMgrImpl implements LocationFinder {
             if (bestLocationProvider != null) {
                 lm.removeUpdates(getObserver());
                 state = LocationFinderState.Confused;
-                mixContext.getActualMixView().runOnUiThread(new Runnable() {
+                appContext.getActualMixView().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         lm.requestLocationUpdates(bestLocationProvider, freq, dist, getObserver());
@@ -185,11 +185,11 @@ class LocationMgrImpl implements LocationFinder {
                 });
                 state = LocationFinderState.Active;
             } else { //no location found
-                mixContext.getActualMixView().runOnUiThread(new Runnable() {
+                appContext.getActualMixView().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(mixContext.getActualMixView(),
-                                mixContext.getActualMixView().getResources().getString(
+                        Toast.makeText(appContext.getActualMixView(),
+                                appContext.getActualMixView().getResources().getString(
                                         R.string.location_not_found), Toast.LENGTH_LONG);
                     }
                 });

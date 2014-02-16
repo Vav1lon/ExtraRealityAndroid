@@ -14,20 +14,20 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
-import com.vav1lon.MixContext;
+import com.vav1lon.AppContext;
 
 import java.util.List;
 
 class WebPageMgrImpl implements WebContentManager {
 
-    protected MixContext mixContext;
+    protected AppContext appContext;
 
     public void loadMixViewWebPage(String url) throws Exception {
-        loadWebPage(url, mixContext.getActualMixView());
+        loadWebPage(url, appContext.getActualMixView());
     }
 
-    public WebPageMgrImpl(MixContext mixContext) {
-        this.mixContext = mixContext;
+    public WebPageMgrImpl(AppContext appContext) {
+        this.appContext = appContext;
     }
 
     public void loadWebPage(String url, Context context) throws Exception {
@@ -52,7 +52,7 @@ class WebPageMgrImpl implements WebContentManager {
             public void onPageFinished(WebView view, String url) {
                 if (url.endsWith("return")) {
                     d.dismiss();
-                    mixContext.getActualMixView().repaint();
+                    appContext.getActualMixView().repaint();
                 } else {
                     super.onPageFinished(view, url);
                 }
@@ -66,7 +66,7 @@ class WebPageMgrImpl implements WebContentManager {
                 LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
                 Gravity.BOTTOM));
 
-        if (!processUrl(url, mixContext.getActualMixView())) { // if the url could not be processed by
+        if (!processUrl(url, appContext.getActualMixView())) { // if the url could not be processed by
             // another intent
             d.show();
             webview.loadUrl(url);

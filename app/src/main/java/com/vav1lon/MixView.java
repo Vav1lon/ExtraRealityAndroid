@@ -98,7 +98,7 @@ public class MixView extends Activity implements SensorEventListener, OnTouchLis
                 //getMixViewData().setMixContext(new MixContext(this));
                 //getMixViewData().getMixContext().setDownloadManager(new DownloadManager(mixViewData.getMixContext()));
                 setdWindow(new PaintScreen());
-                setDataView(new DataView(getMixViewData().getMixContext()));
+                setDataView(new DataView(getMixViewData().getAppContext()));
 
 				/* set the radius in data view to the last selected by the user */
                 setZoomLevel();
@@ -122,7 +122,7 @@ public class MixView extends Activity implements SensorEventListener, OnTouchLis
     public MixViewDataHolder getMixViewData() {
         if (mixViewData == null) {
             // TODO: VERY inportant, only one!
-            mixViewData = new MixViewDataHolder(new MixContext(this));
+            mixViewData = new MixViewDataHolder(new AppContext(this));
         }
         return mixViewData;
     }
@@ -141,8 +141,8 @@ public class MixView extends Activity implements SensorEventListener, OnTouchLis
                         getMixViewData().getSensorMag());
                 getMixViewData().setSensorMgr(null);
 
-                getMixViewData().getMixContext().getLocationFinder().switchOff();
-                getMixViewData().getMixContext().getDownloadManager().switchOff();
+                getMixViewData().getAppContext().getLocationFinder().switchOff();
+                getMixViewData().getAppContext().getDownloadManager().switchOff();
 
                 if (getDataView() != null) {
                     getDataView().cancelRefreshTimer();
@@ -190,13 +190,13 @@ public class MixView extends Activity implements SensorEventListener, OnTouchLis
             this.getMixViewData().getmWakeLock().acquire();
 
             killOnError();
-            getMixViewData().getMixContext().doResume(this);
+            getMixViewData().getAppContext().doResume(this);
 
             repaint();
             getDataView().doStart();
             getDataView().clearEvents();
 
-            getMixViewData().getMixContext().getDataSourceManager().refreshDataSources();
+            getMixViewData().getAppContext().getDataSourceManager().refreshDataSources();
 
             float angleX, angleY;
 
@@ -263,7 +263,7 @@ public class MixView extends Activity implements SensorEventListener, OnTouchLis
                     getMixViewData().getSensorMag(), SENSOR_DELAY_NORMAL);
 
             try {
-                GeomagneticField gmf = getMixViewData().getMixContext().getLocationFinder().getGeomagneticField();
+                GeomagneticField gmf = getMixViewData().getAppContext().getLocationFinder().getGeomagneticField();
                 angleY = (float) Math.toRadians(-gmf.getDeclination());
                 getMixViewData().getM4().set(FloatMath.cos(angleY), 0f,
                         FloatMath.sin(angleY), 0f, 1f, 0f,
@@ -273,8 +273,8 @@ public class MixView extends Activity implements SensorEventListener, OnTouchLis
                 Log.d("mixare", "GPS Initialize Error", ex);
             }
 
-            getMixViewData().getMixContext().getDownloadManager().switchOn();
-            getMixViewData().getMixContext().getLocationFinder().switchOn();
+            getMixViewData().getAppContext().getDownloadManager().switchOn();
+            getMixViewData().getAppContext().getLocationFinder().switchOn();
         } catch (Exception ex) {
             doError(ex);
             try {
@@ -286,9 +286,9 @@ public class MixView extends Activity implements SensorEventListener, OnTouchLis
                     getMixViewData().setSensorMgr(null);
                 }
 
-                if (getMixViewData().getMixContext() != null) {
-                    getMixViewData().getMixContext().getLocationFinder().switchOff();
-                    getMixViewData().getMixContext().getDownloadManager().switchOff();
+                if (getMixViewData().getAppContext() != null) {
+                    getMixViewData().getAppContext().getLocationFinder().switchOff();
+                    getMixViewData().getAppContext().getDownloadManager().switchOff();
                 }
             } catch (Exception ignore) {
             }
@@ -340,7 +340,7 @@ public class MixView extends Activity implements SensorEventListener, OnTouchLis
         getDataView().clearEvents();
         setDataView(null); //It's smelly code, but enforce garbage collector
         //to release data.
-        setDataView(new DataView(mixViewData.getMixContext()));
+        setDataView(new DataView(mixViewData.getAppContext()));
         setdWindow(new PaintScreen());
         //setZoomLevel(); //@TODO Caller has to set the zoom. This function repaints only.
     }
@@ -597,7 +597,7 @@ public class MixView extends Activity implements SensorEventListener, OnTouchLis
                 break;
         /* GPS Information */
             case 6:
-                Location currentGPSInfo = getMixViewData().getMixContext().getLocationFinder().getCurrentLocation();
+                Location currentGPSInfo = getMixViewData().getAppContext().getLocationFinder().getCurrentLocation();
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage(getString(R.string.general_info_text) + "\n\n"
                         + getString(R.string.longitude)
@@ -625,7 +625,7 @@ public class MixView extends Activity implements SensorEventListener, OnTouchLis
             case 7:
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
                 builder1.setMessage(getString(R.string.license));
-			/* Retry */
+            /* Retry */
                 builder1.setNegativeButton(getString(R.string.close_button),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
@@ -751,7 +751,7 @@ public class MixView extends Activity implements SensorEventListener, OnTouchLis
 
             getMixViewData().getSmoothR().mult(1 / (float) getMixViewData().getHistR().length);
 
-            getMixViewData().getMixContext().updateSmoothRotation(getMixViewData().getSmoothR());
+            getMixViewData().getAppContext().updateSmoothRotation(getMixViewData().getSmoothR());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -820,7 +820,7 @@ public class MixView extends Activity implements SensorEventListener, OnTouchLis
                 && accuracy == SensorManager.SENSOR_STATUS_UNRELIABLE
                 && getMixViewData().getCompassErrorDisplayed() == 0) {
             for (int i = 0; i < 2; i++) {
-                Toast.makeText(getMixViewData().getMixContext(),
+                Toast.makeText(getMixViewData().getAppContext(),
                         "Compass data unreliable. Please recalibrate compass.",
                         Toast.LENGTH_LONG).show();
             }
@@ -962,7 +962,7 @@ public class MixView extends Activity implements SensorEventListener, OnTouchLis
 //		mixViewData.getDownloadThread().start();
 
 
-        getMixViewData().getMixContext().getDownloadManager().switchOn();
+        getMixViewData().getAppContext().getDownloadManager().switchOn();
 
     }
 
@@ -1181,7 +1181,7 @@ class AugmentedView extends View {
 }
 
 class MixViewDataHolder {
-    private final MixContext mixContext;
+    private final AppContext appContext;
     private float[] RTmp;
     private float[] Rot;
     private float[] I;
@@ -1207,8 +1207,8 @@ class MixViewDataHolder {
     private int zoomProgress;
     private TextView searchNotificationTxt;
 
-    public MixViewDataHolder(MixContext mixContext) {
-        this.mixContext = mixContext;
+    public MixViewDataHolder(AppContext appContext) {
+        this.appContext = appContext;
         this.RTmp = new float[9];
         this.Rot = new float[9];
         this.I = new float[9];
@@ -1227,8 +1227,8 @@ class MixViewDataHolder {
     }
 
     /* ******* Getter and Setters ********** */
-    public MixContext getMixContext() {
-        return mixContext;
+    public AppContext getAppContext() {
+        return appContext;
     }
 
     public float[] getRTmp() {
