@@ -4,7 +4,7 @@ import android.location.Location;
 import android.util.Log;
 
 import com.vav1lon.AppContext;
-import com.vav1lon.MixView;
+import com.vav1lon.AppView;
 import com.vav1lon.lib.marker.Marker;
 
 import java.util.ArrayList;
@@ -18,13 +18,13 @@ public class DataHandler {
 
     public void addMarkers(List<Marker> markers) {
 
-        Log.v(MixView.TAG, "Marker before: " + markerList.size());
+        Log.v(AppView.TAG, "Marker before: " + markerList.size());
         for (Marker ma : markers) {
             if (!markerList.contains(ma))
                 markerList.add(ma);
         }
 
-        Log.d(MixView.TAG, "Marker count: " + markerList.size());
+        Log.d(AppView.TAG, "Marker count: " + markerList.size());
     }
 
     public void sortMarkerList() {
@@ -48,7 +48,6 @@ public class DataHandler {
             map.put(mClass, (map.get(mClass) != null) ? map.get(mClass) + 1 : 1);
 
             boolean belowMax = (map.get(mClass) <= ma.getMaxObjects());
-            //boolean dataSourceSelected = mixContext.isDataSourceSelected(ma.getDatasource());
 
             ma.setActive((belowMax));
         }

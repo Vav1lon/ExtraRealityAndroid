@@ -1,4 +1,4 @@
-package com.vav1lon;
+package com.vav1lon.marker;
 
 import android.graphics.Bitmap;
 import android.location.Location;

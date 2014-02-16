@@ -1,8 +1,9 @@
-package com.vav1lon;
+package com.vav1lon.marker;
 
 import android.graphics.Path;
 import android.location.Location;
 
+import com.vav1lon.AppView;
 import com.vav1lon.lib.MixUtils;
 import com.vav1lon.lib.gui.PaintScreen;
 
@@ -24,7 +25,7 @@ public class NavigationMarker extends LocalMarker {
         // your surrounding sphere so we set the height component of
         // the position vector radius/2 (in meter) below the user
 
-        locationVector.y -= MixView.getDataView().getRadius() * 500f;
+        locationVector.y -= AppView.getDataView().getRadius() * 500f;
         //locationVector.y+=-1000;
     }
 

@@ -19,9 +19,9 @@ import com.vav1lon.mrg.webcontent.WebContentManagerFactory;
 
 public class AppContext extends ContextWrapper implements MixContextInterface {
 
-    public static final String TAG = "Mixare";
+    public static final String TAG = "ER-Project";
 
-    private MixView mixView;
+    private AppView appView;
 
     private Matrix rotationM = new Matrix();
 
@@ -33,9 +33,9 @@ public class AppContext extends ContextWrapper implements MixContextInterface {
 
     private WebContentManager webContentManager;
 
-    public AppContext(MixView appCtx) {
+    public AppContext(AppView appCtx) {
         super(appCtx);
-        mixView = appCtx;
+        appView = appCtx;
 
         // TODO: RE-ORDER THIS SEQUENCE... IS NECESSARY?
         getDataSourceManager().refreshDataSources();
@@ -68,8 +68,8 @@ public class AppContext extends ContextWrapper implements MixContextInterface {
         getWebContentManager().loadWebPage(url, getActualMixView());
     }
 
-    public void doResume(MixView mixView) {
-        setActualMixView(mixView);
+    public void doResume(AppView appView) {
+        setActualMixView(appView);
     }
 
     public void updateSmoothRotation(Matrix smoothR) {
@@ -109,15 +109,15 @@ public class AppContext extends ContextWrapper implements MixContextInterface {
         return webContentManager;
     }
 
-    public MixView getActualMixView() {
-        synchronized (mixView) {
-            return this.mixView;
+    public AppView getActualMixView() {
+        synchronized (appView) {
+            return this.appView;
         }
     }
 
-    private void setActualMixView(MixView mv) {
-        synchronized (mixView) {
-            this.mixView = mv;
+    private void setActualMixView(AppView mv) {
+        synchronized (appView) {
+            this.appView = mv;
         }
     }
 

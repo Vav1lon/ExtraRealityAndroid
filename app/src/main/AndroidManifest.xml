@@ -47,7 +47,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.vav1lon.MixView"
+            android:name=".AppView"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="landscape">
@@ -76,7 +76,7 @@
                 android:value=".MixView" />
         </activity>
         <activity
-            android:name="com.vav1lon.MixListView"
+            android:name=".AppListView"
             android:launchMode="singleTop"
             android:screenOrientation="user">
             <intent-filter>

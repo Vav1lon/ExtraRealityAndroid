@@ -6,14 +6,14 @@ import com.vav1lon.lib.MixUtils;
 import com.vav1lon.lib.render.Matrix;
 import com.vav1lon.lib.render.MixVector;
 
-public class MixState implements MixStateInterface {
+public class AppState implements MixStateInterface {
 
     public static int NOT_STARTED = 0;
     public static int PROCESSING = 1;
     public static int READY = 2;
     public static int DONE = 3;
 
-    int nextLStatus = MixState.NOT_STARTED;
+    int nextLStatus = AppState.NOT_STARTED;
     String downloadId;
 
     private float curBearing;

@@ -3,7 +3,7 @@ package com.vav1lon.mrg.downloader;
 import android.util.Log;
 
 import com.vav1lon.AppContext;
-import com.vav1lon.MixView;
+import com.vav1lon.AppView;
 import com.vav1lon.data.convert.DataConvertor;
 import com.vav1lon.lib.marker.Marker;
 import com.vav1lon.mrg.HttpTools;
@@ -96,7 +96,7 @@ class DownloadMgrImpl implements Runnable, DownloadManager {
             if (!todoList.contains(job)) {
                 mJob = new ManagedDownloadRequest(job);
                 todoList.add(mJob);
-                Log.i(MixView.TAG, "Submitted " + job.toString());
+                Log.i(AppView.TAG, "Submitted " + job.toString());
                 jobId = mJob.getUniqueKey();
             }
         }
@@ -131,7 +131,7 @@ class DownloadMgrImpl implements Runnable, DownloadManager {
         if (DownloadManagerState.OffLine.equals(getState())) {
             executor.execute(this);
         } else {
-            Log.i(MixView.TAG, "DownloadManager already started");
+            Log.i(AppView.TAG, "DownloadManager already started");
         }
     }
 

@@ -33,7 +33,7 @@ public class DataView {
     private int width;
     private int height;
     private Camera cam;
-    private MixState state = new MixState();
+    private AppState state = new AppState();
     private boolean frozen;
     private int retry;
     private Location curFix;
@@ -53,9 +53,6 @@ public class DataView {
 
     private List<Marker> markers;
 
-    /**
-     * Constructor
-     */
     public DataView(AppContext ctx) {
         this.appContext = ctx;
     }
@@ -97,7 +94,7 @@ public class DataView {
     }
 
     public void doStart() {
-        state.nextLStatus = MixState.NOT_STARTED;
+        state.nextLStatus = AppState.NOT_STARTED;
         appContext.getLocationFinder().setLocationAtLastDownload(curFix);
     }
 
@@ -124,7 +121,7 @@ public class DataView {
 
     public void requestData(String url) {
 
-        state.nextLStatus = MixState.PROCESSING;
+        state.nextLStatus = AppState.PROCESSING;
     }
 
     public void draw(PaintScreen dw) {
@@ -134,10 +131,10 @@ public class DataView {
         state.calcPitchBearing(cam.transform);
 
         // Load Layer
-        if (state.nextLStatus == MixState.NOT_STARTED && !frozen) {
+        if (state.nextLStatus == AppState.NOT_STARTED && !frozen) {
             loadDrawLayer();
             markers = new ArrayList<Marker>();
-        } else if (state.nextLStatus == MixState.PROCESSING) {
+        } else if (state.nextLStatus == AppState.PROCESSING) {
             DownloadManager dm = appContext.getDownloadManager();
             DownloadResult dRes = null;
 
@@ -145,7 +142,7 @@ public class DataView {
 
             if (dm.isDone()) {
                 retry = 0;
-                state.nextLStatus = MixState.DONE;
+                state.nextLStatus = AppState.DONE;
 
                 dataHandler = new DataHandler();
                 dataHandler.addMarkers(markers);
@@ -204,7 +201,7 @@ public class DataView {
                     break;
             }
         }
-        state.nextLStatus = MixState.PROCESSING;
+        state.nextLStatus = AppState.PROCESSING;
     }
 
     /**
@@ -217,13 +214,13 @@ public class DataView {
         } else {
             double lat = curFix.getLatitude(), lon = curFix.getLongitude(), alt = curFix
                     .getAltitude();
-            state.nextLStatus = MixState.PROCESSING;
+            state.nextLStatus = AppState.PROCESSING;
             appContext.getDataSourceManager().requestDataFromAllActiveDataSource(lat, lon, alt, radius);
         }
 
         // if no datasources are activated
-        if (state.nextLStatus == MixState.NOT_STARTED)
-            state.nextLStatus = MixState.DONE;
+        if (state.nextLStatus == AppState.NOT_STARTED)
+            state.nextLStatus = AppState.DONE;
     }
 
     private List<Marker> downloadDrawResults(DownloadManager dm, DownloadResult dRes) {
@@ -241,7 +238,7 @@ public class DataView {
             if (!dRes.isError()) {
                 if (dRes.getMarkers() != null) {
                     //jLayer = (DataHandler) dRes.obj;
-                    Log.i(MixView.TAG, "Adding Markers");
+                    Log.i(AppView.TAG, "Adding Markers");
                     markers.addAll(dRes.getMarkers());
 
                     // Notification
@@ -289,7 +286,7 @@ public class DataView {
         boolean evtHandled = false;
 
         // Handle event
-        if (state.nextLStatus == MixState.DONE) {
+        if (state.nextLStatus == AppState.DONE) {
             // the following will traverse the markers in ascending order (by
             // distance) the first marker that
             // matches triggers the event.
@@ -337,7 +334,7 @@ public class DataView {
     }
 
     public void refresh() {
-        state.nextLStatus = MixState.NOT_STARTED;
+        state.nextLStatus = AppState.NOT_STARTED;
     }
 
     private void callRefreshToast() {

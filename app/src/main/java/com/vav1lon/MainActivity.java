@@ -10,7 +10,7 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        startActivity(new Intent(this, MixView.class));
+        startActivity(new Intent(this, AppView.class));
         finish();
     }
 

@@ -8,7 +8,7 @@ import android.location.LocationManager;
 import android.widget.Toast;
 
 import com.vav1lon.AppContext;
-import com.vav1lon.MixView;
+import com.vav1lon.AppView;
 import com.vav1lon.R;
 import com.vav1lon.mrg.downloader.DownloadManager;
 
@@ -95,10 +95,10 @@ class LocationMgrImpl implements LocationFinder {
 
     public Location getCurrentLocation() {
         if (curLoc == null) {
-            MixView mixView = appContext.getActualMixView();
+            AppView appView = appContext.getActualMixView();
             Toast.makeText(
-                    mixView,
-                    mixView.getResources().getString(
+                    appView,
+                    appView.getResources().getString(
                             R.string.location_not_found), Toast.LENGTH_LONG)
                     .show();
             throw new RuntimeException("No GPS Found");

@@ -1,8 +1,8 @@
 package com.vav1lon.data.convert;
 
-import com.vav1lon.POIMarker;
 import com.vav1lon.data.DataHandler;
 import com.vav1lon.lib.marker.Marker;
+import com.vav1lon.marker.POIMarker;
 
 import org.json.JSONException;
 
