@@ -128,6 +128,12 @@ public class DataView {
         appContext.getRM(cam.transform);
         curFix = appContext.getLocationFinder().getCurrentLocation();
 
+//        curFix.setLongitude(37.640491);
+//        curFix.setLatitude(55.879416);
+
+        curFix.setLongitude(55.879416);
+        curFix.setLatitude(37.640491);
+
         state.calcPitchBearing(cam.transform);
 
         // Load Layer
@@ -170,18 +176,18 @@ public class DataView {
             Marker ma = dataHandler.getMarker(i);
             // if (ma.isActive() && (ma.getDistance() / 1000f < radius || ma
             // instanceof NavigationMarker || ma instanceof SocialMarker)) {
-            if (ma.isActive() && (ma.getDistance() / 1000f < radius)) {
+//            if (ma.isActive() && (ma.getDistance() / 1000f < radius)) {
 
-                // To increase performance don't recalculate position vector
-                // for every marker on every draw call, instead do this only
-                // after onLocationChanged and after downloading new marker
-                // if (!frozen)
-                // ma.update(curFix);
-                if (!frozen)
-                    ma.calcPaint(cam, addX, addY);
-                ma.draw(dw);
-            }
+            // To increase performance don't recalculate position vector
+            // for every marker on every draw call, instead do this only
+            // after onLocationChanged and after downloading new marker
+            // if (!frozen)
+            // ma.update(curFix);
+            if (!frozen)
+                ma.calcPaint(cam, addX, addY);
+            ma.draw(dw);
         }
+//        }
 
         // Get next event
         UIEvent evt = null;

@@ -34,9 +34,14 @@ public class MixareDataProcessor extends DataHandler implements DataProcessor {
     public List<Marker> load(String rawData, int taskId, int colour) throws JSONException {
         List<Marker> markers = new ArrayList<Marker>();
 
-        markers.add(new POIMarker("9", "Маслянный трансформатор", 55.87830248683688, 37.64838195858, 50, "", taskId, colour));
-
-        markers.add(new POIMarker("10", "Маслянный трансформатор", 65.87830248683688, 27.64838195858, 50, "", taskId, colour));
+        markers.add(new POIMarker("1", "Бабушкинская", 37.664524, 55.869738, 200.0, "", taskId, colour));
+        markers.add(new POIMarker("2", "Медведково", 37.661563, 55.887409, 200.0, "", taskId, colour));
+        markers.add(new POIMarker("3", "Магазин", 37.645641, 55.878339, 200.0, "", taskId, colour));
+        markers.add(new POIMarker("4", "Мост на Яузе", 37.657228, 55.876675, 200.0, "", taskId, colour));
+//
+//        markers.add(new POIMarker("9", "Маслянный трансформатор", 55.87830248683688, 37.64838195858, 50, "", taskId, colour));
+//
+//        markers.add(new POIMarker("10", "Маслянный трансформатор", 65.87830248683688, 27.64838195858, 50, "", taskId, colour));
 //        markers.add(new POIMarker("8", "Материал №2",  55.87830248683688, 37.648382558, 50, "", taskId, colour));
 //        markers.add(new POIMarker("8", "Материал №8", 55.87916912212519, 37.64292098102568, 120, "", taskId, colour));
 

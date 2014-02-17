@@ -38,7 +38,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.vav1lon.data.DataSourceList;
 import com.vav1lon.lib.gui.PaintScreen;
 import com.vav1lon.lib.render.Matrix;
 
@@ -283,9 +282,7 @@ public class AppView extends Activity implements SensorEventListener, OnTouchLis
                     getdWindow().getWidth());
             getMixViewData().getSearchNotificationTxt().setPadding(10, 2, 0, 0);
             getMixViewData().getSearchNotificationTxt().setText(
-                    getString(R.string.search_active_1) + " "
-                            + DataSourceList.getDataSourcesStringList()
-                            + getString(R.string.search_active_2));
+                    getString(R.string.search_active_1) + " " + getString(R.string.search_active_2));
             ;
             getMixViewData().getSearchNotificationTxt().setBackgroundColor(
                     Color.DKGRAY);
@@ -950,8 +947,8 @@ class AugmentedView extends View {
                 String startKM, endKM;
                 endKM = "80km";
                 startKM = "0km";
-				/*
-				 * if(MixListView.getDataSource().equals("Twitter")){ startKM =
+                /*
+                 * if(MixListView.getDataSource().equals("Twitter")){ startKM =
 				 * "1km"; }
 				 */
                 canvas.drawText(startKM, canvas.getWidth() / 100 * 4,
